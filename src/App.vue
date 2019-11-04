@@ -1,20 +1,16 @@
 <template>
-  <div id="app">
-{{msg}}
-  </div>
+  <div id="app">{{msg}}</div>
 </template>
 
 <script>
 export default {
-  name: 'app',
-  data () {
+  name: "app",
+  data() {
     return {
-      msg: 'Welcome to Your Vue.js App'
-    }
+      msg: "Welcome to Your Vue.js App"
+    };
   }
-}
+};
 </script>
-
 <style>
-
 </style>
