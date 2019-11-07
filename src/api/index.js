@@ -46,5 +46,8 @@ export const card = {
   },
   fetch(id) {
     return req("get", `/cards/${id}`);
+  },
+  update(id, payload) {
+    return req("put", `/cards/${id}`, payload);
   }
 };
