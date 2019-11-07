@@ -1,0 +1,9 @@
+{
+    "sqltools.connections": [
+        {
+            "database": "F:\\새 폴더\\myDev\\lecture-vue-trello-server\\db-dev.sqlite",
+            "dialect": "SQLite",
+            "name": "ee"
+        }
+    ]
+}
