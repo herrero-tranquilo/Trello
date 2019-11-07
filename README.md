@@ -6,7 +6,7 @@ curl localhost:3000/health
 
 ### Login
 
-## curl -X POST localhost:3000/login -d 'email=test@test.com&password=123123'
+curl -X POST localhost:3000/login -d 'email=test@test.com&password=123123'
 
 ---
 
