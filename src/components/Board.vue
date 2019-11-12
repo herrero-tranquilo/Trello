@@ -3,7 +3,16 @@
     <div class="board-wrapper">
       <div class="board">
         <div class="board-header">
-          <span class="board-title">{{board.title}}</span>
+          <input
+            class="form-control"
+            v-if="isEditTitle"
+            v-model="inputTitle"
+            ref="inputTitle"
+            @blur="onSubmitTitle"
+            @keyup.enter="onSubmitTitle"
+            type="text"
+          />
+          <span v-else class="board-title" @click="onClickTitle">{{board.title}}</span>
           <a href class="board-header-btn show-menu" @click.prevent="onShowSettings">...Show Menu</a>
         </div>
         <div class="list-section-wrapper">
@@ -27,7 +36,14 @@ import dragger from "../utils/dragger";
 export default {
   components: { List, BoardSettings },
   data() {
-    return { bid: 0, loading: true, dragulaCards: null, cDragger: null };
+    return {
+      bid: 0,
+      loading: true,
+      dragulaCards: null,
+      cDragger: null,
+      inputTitle: "",
+      isEditTitle: false
+    };
   },
   computed: {
     ...mapState({
@@ -37,6 +53,7 @@ export default {
   },
   created() {
     this.fetchData().then(() => {
+      this.inputTitle = this.board.title;
       this.SET_THEME(this.board.bgColor);
     });
     this.SET_IS_SHOW_BOARD_SETTINGS(false);
@@ -46,7 +63,7 @@ export default {
   },
   methods: {
     ...mapMutations(["SET_THEME", "SET_IS_SHOW_BOARD_SETTINGS"]),
-    ...mapActions(["FETCH_BOARD", "UPDATE_CARD"]),
+    ...mapActions(["FETCH_BOARD", "UPDATE_CARD", "UPDATE_BOARD"]),
     fetchData() {
       this.loading = true;
       return this.FETCH_BOARD({ id: this.$route.params.bid }).then(_ => {
@@ -77,6 +94,19 @@ export default {
     },
     onShowSettings() {
       this.SET_IS_SHOW_BOARD_SETTINGS(true);
+    },
+    onClickTitle() {
+      this.isEditTitle = true;
+      this.$nextTick(_ => this.$refs.inputTitle.focus());
+    },
+    onSubmitTitle() {
+      this.isEditTitle = false;
+      this.inputTitle = this.inputTitle.trim();
+      if (!this.inputTitle) return;
+      const id = this.board.id;
+      const title = this.inputTitle;
+      if (title === this.board.title) return;
+      this.UPDATE_BOARD({ id, title });
     }
   }
 };
