@@ -1,8 +1,13 @@
-import { board, auth, card } from "../api";
+import { board, auth, card, list } from "../api";
 //VUEX STORE ACTIONS
 export default {
   ADD_BOARD(_, { title }) {
     return board.create(title).then(data => data.item);
+  },
+  ADD_LIST({ dispatch, state }, { title, boardId, pos }) {
+    return list
+      .create({ title, boardId, pos })
+      .then(_ => dispatch("FETCH_BOARD", { id: state.board.id }));
   },
   ADD_CARD({ dispatch, state }, { title, listId, pos }) {
     return card
@@ -27,6 +32,11 @@ export default {
   UPDATE_BOARD({ dispatch, state }, { id, title, bgColor }) {
     return board
       .update(id, { title, bgColor })
+      .then(_ => dispatch("FETCH_BOARD", { id: state.board.id }));
+  },
+  UPDATE_LIST({ dispatch, state }, { id, pos, title }) {
+    return list
+      .update(id, { pos, title })
       .then(_ => dispatch("FETCH_BOARD", { id: state.board.id }));
   },
   UPDATE_CARD({ dispatch, state }, { id, title, description, pos, listId }) {

@@ -1,7 +1,16 @@
 <template>
   <div class="list">
     <div class="list-header">
-      <div class="list-header-title">{{data.title}}</div>
+      <input
+        v-if="isEditTitle"
+        class="form-control input-title"
+        ref="inputTitle"
+        v-model="inputTitle"
+        @blur="onBlurTitle"
+        @keyup.enter="onSubmitTitle"
+        type="text"
+      />
+      <div @click="onClickTitle" class="list-header-title">{{data.title}}</div>
     </div>
     <div class="card-list">
       <CardItem v-for="card in data.cards" :key="card.id" :data="card" />
@@ -17,17 +26,42 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import AddCard from "./AddCard";
 import CardItem from "./CardItem";
 export default {
   components: { AddCard, CardItem },
   props: ["data"],
+  created() {
+    this.inputTitle = this.data.title;
+  },
   data() {
     return {
-      isAddCard: false
+      isAddCard: false,
+      isEditTitle: false,
+      inputTitle: ""
     };
   },
-  methods: {}
+  methods: {
+    ...mapActions(["UPDATE_LIST"]),
+    onClickTitle() {
+      this.isEditTitle = true;
+      this.$nextTick(_ => this.$refs["inputTitle"].focus());
+    },
+    onBlurTitle() {
+      this.isEditTitle = false;
+    },
+    onSubmitTitle() {
+      this.onBlurTitle();
+      this.inputTitle = this.inputTitle.trim();
+      if (!this.inputTitle) return;
+      const id = this.data.id;
+      const title = this.inputTitle;
+      if (title == this.data.title) return;
+      console.log(11);
+      this.UPDATE_LIST({ id, title });
+    }
+  }
 };
 </script>
 <style>

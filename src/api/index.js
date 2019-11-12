@@ -1,5 +1,6 @@
 import Axios from "axios";
 import router from "../router";
+import { request } from "http";
 
 const DOMAIN = "http://localhost:3000";
 const UNAUTHORIZED = 401;
@@ -24,10 +25,16 @@ const req = (method, url, data) => {
       // throw result.response;
     });
 };
+
 export const setAuthInHeader = token => {
   Axios.defaults.headers.common["Authorization"] = token
     ? `Bearer ${token}`
     : null;
+};
+export const auth = {
+  login(email, password) {
+    return req("post", "/login", { email, password });
+  }
 };
 
 export const board = {
@@ -44,12 +51,14 @@ export const board = {
     return req("delete", `/boards/${id}`);
   }
 };
-export const auth = {
-  login(email, password) {
-    return req("post", "/login", { email, password });
+export const list = {
+  create(payload) {
+    return req("post", "/lists", payload);
+  },
+  update(id, payload) {
+    return req("put", `/lists/${id}`, payload);
   }
 };
-
 export const card = {
   create(title, listId, pos) {
     return req("post", "/cards", { title, listId, pos });
