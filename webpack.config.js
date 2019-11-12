@@ -45,7 +45,9 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
     noInfo: true,
-    overlay: true
+    overlay: true,
+    port: 8000,
+    hot: true
   },
   performance: {
     hints: false
@@ -59,7 +61,7 @@ if (process.env.NODE_ENV === "production") {
   module.exports.plugins = (module.exports.plugins || []).concat([
     new webpack.DefinePlugin({
       "process.env": {
-        NODE_ENV: '"production"'
+        NODE_ENV: "production"
       }
     }),
     new webpack.optimize.UglifyJsPlugin({
