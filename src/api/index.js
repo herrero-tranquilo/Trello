@@ -1,11 +1,14 @@
 import Axios from "axios";
 import router from "../router";
-import { request } from "https";
 
 const DOMAIN = "http://localhost:3000";
 const UNAUTHORIZED = 401;
+const NOTFOUND = 404;
 const onUnauthorized = () => {
   router.push(`/login?rPath=${encodeURIComponent(location.pathname)}`);
+};
+const onNotFound = () => {
+  router.replace("/404");
 };
 const req = (method, url, data) => {
   return Axios({
@@ -17,7 +20,8 @@ const req = (method, url, data) => {
     .catch(result => {
       const { status } = result.response;
       if (status === UNAUTHORIZED) onUnauthorized();
-      throw result.response;
+      if (status === NOTFOUND) onNotFound();
+      // throw result.response;
     });
 };
 export const setAuthInHeader = token => {
@@ -32,6 +36,9 @@ export const board = {
   },
   create(title) {
     return req("post", "/boards", { title });
+  },
+  destroy(id) {
+    return req("delete", `/boards/${id}`);
   }
 };
 export const auth = {

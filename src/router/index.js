@@ -23,10 +23,8 @@ const Router = new VueRouter({
       beforeEnter: requireAuth,
       children: [{ path: "card/:cid", component: Card }]
     },
-    {
-      path: "*",
-      component: NotFound
-    }
+    { path: "/404", component: NotFound },
+    { path: "*", redirect: "/404" }
   ]
 });
 export default Router;
