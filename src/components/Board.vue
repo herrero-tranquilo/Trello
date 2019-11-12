@@ -4,6 +4,7 @@
       <div class="board">
         <div class="board-header">
           <span class="board-title">{{board.title}}</span>
+          <a href class="board-header-btn show-menu" @click.prevent="onShowSettings">...Show Menu</a>
         </div>
         <div class="list-section-wrapper">
           <div class="list-section">
@@ -14,33 +15,37 @@
         </div>
       </div>
     </div>
+    <BoardSettings v-if="isShowBoardSettings" />
     <router-view></router-view>
   </div>
 </template>
 <script>
 import List from "./list";
+import BoardSettings from "./BoardSettings";
 import { mapState, mapMutations, mapActions } from "vuex";
 import dragger from "../utils/dragger";
 export default {
-  components: { List },
+  components: { List, BoardSettings },
   data() {
     return { bid: 0, loading: true, dragulaCards: null, cDragger: null };
   },
   computed: {
     ...mapState({
-      board: "board"
+      board: "board",
+      isShowBoardSettings: "isShowBoardSettings"
     })
   },
   created() {
     this.fetchData().then(() => {
       this.SET_THEME(this.board.bgColor);
     });
+    this.SET_IS_SHOW_BOARD_SETTINGS(false);
   },
   updated() {
     this.setCardDragable();
   },
   methods: {
-    ...mapMutations(["SET_THEME"]),
+    ...mapMutations(["SET_THEME", "SET_IS_SHOW_BOARD_SETTINGS"]),
     ...mapActions(["FETCH_BOARD", "UPDATE_CARD"]),
     fetchData() {
       this.loading = true;
@@ -69,6 +74,9 @@ export default {
         else if (prev && next) targetCard.pos = (prev.pos + next.pos) / 2;
         this.UPDATE_CARD(targetCard);
       });
+    },
+    onShowSettings() {
+      this.SET_IS_SHOW_BOARD_SETTINGS(true);
     }
   }
 };
