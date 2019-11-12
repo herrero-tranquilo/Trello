@@ -1,18 +1,19 @@
 <template>
-  <div class="list">
+  <div class="list" :data-list-id="data.id" :data-list-pos="data.pos">
     <div class="list-header">
       <input
         v-if="isEditTitle"
         class="form-control input-title"
         ref="inputTitle"
         v-model="inputTitle"
-        @blur="onBlurTitle"
+        @blur="onSubmitTitle"
         @keyup.enter="onSubmitTitle"
         type="text"
       />
-      <div @click="onClickTitle" class="list-header-title">{{data.title}}</div>
+      <div v-else @click="onClickTitle" class="list-header-title">{{data.title}}</div>
+      <a href class="delete-list-btn" @click.prevent="onDeletelist">&times;</a>
     </div>
-    <div class="card-list">
+    <div class="card-list" :data-list-id="data.id">
       <CardItem v-for="card in data.cards" :key="card.id" :data="card" />
     </div>
     <div v-if="isAddCard">
@@ -20,7 +21,6 @@
     </div>
     <div v-else>
       <a class="add-card-btn" href @click.prevent.stop="isAddCard=true">&plus; Add a Card...</a>
-      <!-- 강의에 버그가 있는듯 해 stop을 추가 이벤트 버블링때문에 AddCard에서 바로 close가 emit되버림-->
     </div>
   </div>
 </template>
@@ -43,16 +43,13 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["UPDATE_LIST"]),
+    ...mapActions(["UPDATE_LIST", "DELETE_LIST"]),
     onClickTitle() {
       this.isEditTitle = true;
       this.$nextTick(_ => this.$refs["inputTitle"].focus());
     },
-    onBlurTitle() {
-      this.isEditTitle = false;
-    },
     onSubmitTitle() {
-      this.onBlurTitle();
+      this.isEditTitle = false;
       this.inputTitle = this.inputTitle.trim();
       if (!this.inputTitle) return;
       const id = this.data.id;
@@ -60,6 +57,10 @@ export default {
       if (title == this.data.title) return;
       console.log(11);
       this.UPDATE_LIST({ id, title });
+    },
+    onDeletelist() {
+      if (!window.confirm(`Delete ${this.data.title} list?`)) return;
+      this.DELETE_LIST({ id: this.data.id });
     }
   }
 };

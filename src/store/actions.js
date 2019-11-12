@@ -47,6 +47,11 @@ export default {
   DELETE_BOARD(_, { id }) {
     return board.destroy(id);
   },
+  DELETE_LIST({ dispatch, state }, { id }) {
+    return list
+      .destroy(id)
+      .then(_ => dispatch("FETCH_BOARD", { id: state.board.id }));
+  },
   DELETE_CARD({ dispatch, state }, { id }) {
     return card
       .destroy(id)
