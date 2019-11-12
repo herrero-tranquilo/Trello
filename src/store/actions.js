@@ -24,6 +24,11 @@ export default {
       commit("SET_CARD", data.item);
     });
   },
+  UPDATE_BOARD({ dispatch, state }, { id, title, bgColor }) {
+    return board
+      .update(id, { title, bgColor })
+      .then(_ => dispatch("FETCH_BOARD", { id: state.board.id }));
+  },
   UPDATE_CARD({ dispatch, state }, { id, title, description, pos, listId }) {
     return card
       .update(id, { title, description, pos, listId })

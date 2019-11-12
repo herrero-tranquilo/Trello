@@ -31,11 +31,14 @@ export const setAuthInHeader = token => {
 };
 
 export const board = {
+  create(title) {
+    return req("post", "/boards", { title });
+  },
   fetch(id) {
     return id ? req("get", `/boards/${id}`) : req("get", "/boards");
   },
-  create(title) {
-    return req("post", "/boards", { title });
+  update(id, payload) {
+    return req("put", `/boards/${id}`, payload);
   },
   destroy(id) {
     return req("delete", `/boards/${id}`);
