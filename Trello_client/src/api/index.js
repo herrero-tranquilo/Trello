@@ -1,6 +1,5 @@
 import Axios from "axios";
 import router from "../router";
-import { request } from "http";
 
 const DOMAIN = "http://localhost:3000";
 const UNAUTHORIZED = 401;

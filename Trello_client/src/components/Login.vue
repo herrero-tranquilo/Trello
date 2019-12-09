@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <h2>Log in to Trello</h2>
-    <form @submit.prevent="onSubmit">
+    <form @submit.prevent="onSubmit" autocomplete="off">
       <div>
         <label for="email">Email</label>
         <input
@@ -10,7 +10,7 @@
           name="email"
           v-model="email"
           autofocus
-          placeholder="e.g., test@test.com"
+          placeholder="e.g., trello@gmail.com"
         />
       </div>
       <div>
