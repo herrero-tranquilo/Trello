@@ -1,13 +1,17 @@
 {
-  "name": "lecture-vue-trello-server",
+  "name": "fake-trello-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "Fake Trello project Server",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon"
   },
   "keywords": [],
-  "author": "",
+  "author": {
+    "name": "YongkukKim",
+    "email": "syntax-err@kakao.com",
+    "url": "https://github.com/k0603156/Trello"
+  },
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.3",

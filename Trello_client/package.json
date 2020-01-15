@@ -1,8 +1,12 @@
 {
   "name": "vue-trello",
-  "description": "A Vue.js project",
+  "description": "Fake Trello project",
   "version": "1.0.0",
-  "author": "kimyongkuk <k0603156@gmail.com>",
+  "author": {
+    "name": "YongkukKim",
+    "email": "syntax-err@kakao.com",
+    "url": "https://github.com/k0603156/Trello"
+  },
   "license": "MIT",
   "private": true,
   "scripts": {

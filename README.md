@@ -1,13 +1,19 @@
-### Trello
+#### ProjectName
 
-TrelloClone
+`Trello`
+
+#### Definition
+
+`Trello clone`
 
 #### Stack
 
-##### Client
+###### Client
 
-Vue
+`Vue` `Vuex` `dragula`
 
-##### Backend
+###### Backend
 
-express
+`express` `sequelize`
+
+#### Document
